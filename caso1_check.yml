@@ -10,7 +10,7 @@
         timeout: 5
         state: started
       loop: "{{ groups['linux'] }}"
-      when: "'linux' in group_names"
+      
 
     - name: Verificar que el puerto 3389 (RDP) esté abierto en los hosts del grupo windows
       wait_for:
@@ -19,6 +19,6 @@
         timeout: 5
         state: started
       loop: "{{ groups['windows'] }}"
-      when: "'windows' in group_names"
+      
 
     
