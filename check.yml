@@ -10,7 +10,7 @@
         port: 22
         timeout: 5
         state: started
-      delegate_to: "{{ inventory_hostname }}"
+      #delegate_to: "{{ inventory_hostname }}"
 
 - name: Verificar conectividad y puertos en Windows
   hosts: windows
@@ -24,4 +24,4 @@
         port: 3389
         timeout: 5
         state: started
-      delegate_to: "{{ inventory_hostname }}"
+      #delegate_to: "{{ inventory_hostname }}"
