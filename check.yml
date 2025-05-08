@@ -2,21 +2,23 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    
-    - name: Verificar que el puerto 22 (SSH) esté abierto
+
+    - name: Verificar que el puerto 22 (SSH) esté abierto en los hosts del grupo linux
       wait_for:
-        host: {{ item }}
+        host: "{{ item }}"
         port: 22
         timeout: 5
         state: started
-      loop: 
-        - 10.172.52.185
-        - 10.172.52.186
-      
-    - name: Verificar que el puerto 3389 (RDP) esté abierto
+      loop: "{{ groups['linux'] }}"
+      when: "'linux' in group_names"
+
+    - name: Verificar que el puerto 3389 (RDP) esté abierto en los hosts del grupo windows
       wait_for:
-        host: 10.172.52.187
+        host: "{{ item }}"
         port: 3389
         timeout: 5
         state: started
+      loop: "{{ groups['windows'] }}"
+      when: "'windows' in group_names"
+
     
