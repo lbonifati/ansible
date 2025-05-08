@@ -3,6 +3,10 @@
   gather_facts: false
   tasks:
 
+    - name: Verificar conectividad (ping) en los hosts del grupo linux
+      ping:
+      loop: "{{ groups['linux'] }}"
+
     - name: Verificar que el puerto 22 (SSH) esté abierto en los hosts del grupo linux
       wait_for:
         host: "{{ item }}"
@@ -11,6 +15,9 @@
         state: started
       loop: "{{ groups['linux'] }}"
       
+    - name: Verificar conectividad (ping) en los hosts del grupo windows
+      ping:
+      loop: "{{ groups['windows'] }}"
 
     - name: Verificar que el puerto 3389 (RDP) esté abierto en los hosts del grupo windows
       wait_for:
@@ -19,6 +26,6 @@
         timeout: 5
         state: started
       loop: "{{ groups['windows'] }}"
-      
+
 
     
