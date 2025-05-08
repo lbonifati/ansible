@@ -1,0 +1,26 @@
+- hosts: linux
+  become: true
+  tasks:
+    - name: Instalar Apache
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: Habilitar e iniciar el servicio de Apache
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Crear copia de seguridad de index.html si existe
+      copy:
+        src: /var/www/html/index.html
+        dest: /var/www/html/index.html.bak
+        remote_src: yes
+
+
+    - name: Copy cotizaciones
+      copy:
+       src: /tmp/cotizacion.html
+       dest: /var/www/html/index.html

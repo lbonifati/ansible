@@ -1,0 +1,52 @@
+- hosts: localhost
+  gather_facts: yes
+  vars:
+    tipos_dolares: ['oficial', 'blue', 'bolsa', 'contadoconliqui', 'tarjeta', 'mayorista', 'cripto' ]
+    url_consulta: "https://dolarapi.com/v1/dolares/"
+  tasks:
+
+  - name: Debug contenido variable tipos dolares
+    debug:
+      msg:
+        - "{{tipos_dolares}}"
+
+  - name: "loop Debug tipos dolares - URL"
+    debug:
+      msg:
+        - "{{url_consulta}}{{item}}"
+    loop: "{{ tipos_dolares }}"
+
+  - name: Consulto cotizaciones in loop
+    uri:
+      url: "{{url_consulta}}{{item}}"
+      method: GET
+      validate_certs: no
+      headers:
+        accept: "*/*"
+        User-Agent: "PostmanRuntime/7.30.0"
+      return_content: yes
+      status_code: 200
+      timeout: 60
+    delegate_to: localhost
+    register: consulta_cotizaciones
+    loop: "{{ tipos_dolares }}"
+
+  - name: Debug Cotizaciones
+    debug:
+      msg:
+        - "0-{{consulta_cotizaciones.results[0].json.nombre}}"
+        - "1-{{consulta_cotizaciones.results[1].json.nombre}}"
+
+
+  - name: Debug Solo oficial
+    debug:
+      msg:
+        - "{{item.json}}"
+    loop: "{{consulta_cotizaciones.results}}"
+    when: item.item == "oficial"
+
+
+  - name: Crear página HTML con la cotización a partir de un template Jinja2
+    template:
+      src: templates/plantilla.html.j2
+      dest: /tmp/cotizacion.html

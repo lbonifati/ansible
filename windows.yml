@@ -1,0 +1,13 @@
+- name: Tareas para servidor Windows
+  hosts: windows
+  tasks:
+    - name: Crear usuario local en Windows
+      win_user:
+        name: demo_user
+        password: "Contraseña123!"
+        state: present
+        groups:
+          - Administrators
+        password_never_expires: yes
+        update_password: on_create
+        account_disabled: yes

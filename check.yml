@@ -1,0 +1,27 @@
+- name: Verificar conectividad y puertos en Linux
+  hosts: linux
+  gather_facts: false
+  tasks:
+    - name: Verificar conectividad con ping (Linux)
+      ping:
+
+    - name: Verificar que el puerto 22 (SSH) esté abierto
+      wait_for:
+        port: 22
+        timeout: 5
+        state: started
+      delegate_to: "{{ inventory_hostname }}"
+
+- name: Verificar conectividad y puertos en Windows
+  hosts: windows
+  gather_facts: false
+  tasks:
+    - name: Verificar conectividad con ping (Windows)
+      win_ping:
+
+    - name: Verificar que el puerto 3389 (RDP) esté abierto
+      wait_for:
+        port: 3389
+        timeout: 5
+        state: started
+      delegate_to: "{{ inventory_hostname }}"
