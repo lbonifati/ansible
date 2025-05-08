@@ -97,13 +97,13 @@ Este playbook crea un usuario local en servidores Windows:
 📁 Estructura del repositorio
 -----------------------------
 ansible/
-├── caso1.yml                # Conectividad y puertos
-├── caso2.yml                # API cotización del dólar
-├── caso3.yml                # Despliegue web Linux
-├── caso4.yml                # Usuarios en Windows
-├── inventory                # Hosts agrupados por sistema
-└── templates/
-    └── plantilla.html.j2    # Plantilla HTML para caso2
+  - caso1.yml                # Conectividad y puertos
+  - caso2.yml                # API cotización del dólar
+  - caso3.yml                # Despliegue web Linux
+  - caso4.yml                # Usuarios en Windows
+  - inventory                # Hosts agrupados por sistema
+  - templates/
+    - plantilla.html.j2    # Plantilla HTML para caso2
     
 📌 Notas
 --------
